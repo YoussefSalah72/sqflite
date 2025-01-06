@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart' as sqfliteDatabase;
+import 'package:sqflite/sqlite_api.dart';
 import 'package:sqflite__departement/core/database/sqflite/crud.dart';
 import 'package:path/path.dart';
 class MySqfliteDatabase extends CRUD {
@@ -16,51 +17,57 @@ class MySqfliteDatabase extends CRUD {
   static const String _salesColumnProductName = "product_name";
   static const String _salesColumnUsername = "sales_username";
 
-  initDatabase() async {
+  Database? _db ;
+  Future<Database> initDatabase() async {
     String databasesPath = await sqfliteDatabase.getDatabasesPath();
     String managementDatabaseName = "management.db";
     String realDatabasePath = join(databasesPath, managementDatabaseName);
     int versionDatabase = 1;
-    sqfliteDatabase.openDatabase(realDatabasePath,
+    _db ??= await sqfliteDatabase.openDatabase(realDatabasePath,
     onCreate: _oncreate,
       version: versionDatabase
     );
+    return _db!;
   }
   _oncreate(sqfliteDatabase.Database db, int version) async {
-    await db.execute("CREATE TABLE $_userTable ($_userColumnId INTEGER ,"
+    await db.execute("CREATE TABLE $_userTable ($_userColumnId INTEGER PRIMARY KEY AUTOINCREMENT ,"
         " $_userColumnUsername TEXT ,"
         " $_userColumnPassword TEXT)");
     ////////////////////////
-    await db.execute("CREATE TABLE $_productTable ($_productColumnId INTEGER ,"
+    await db.execute("CREATE TABLE $_productTable ($_productColumnId INTEGER PRIMARY KEY AUTOINCREMENT ,"
         " $_productColumnUsername TEXT , "
         " $_productColumnPrice REAL ,"
         " $_productColumnProductCount INTEGER)");
     ///////////////////////
-    await db.execute("CREATE TABLE $_salesTable ($_salesColumnId INTEGER ,"
+    await db.execute("CREATE TABLE $_salesTable ($_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT ,"
         " $_salesColumnProductName TEXT ,"
         " $_salesColumnUsername TEXT)");
   }
 
   @override
-  Future<void> delete() {
+  Future<int> delete() {
     // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  Future<void> insert() {
-    // TODO: implement insert
-    throw UnimplementedError();
+  Future<int> insert() async {
+    await initDatabase();
+     int inserted = await _db!.insert( _userTable, {
+      _userColumnUsername: "ahmed",
+      _userColumnPassword: "123456"
+    });
+    return inserted;
   }
 
   @override
-  Future<void> select() {
+  Future<int> select() {
     // TODO: implement select
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update() {
+  Future<int> update() {
     // TODO: implement update
     throw UnimplementedError();
   }
