@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart' as sqfliteDatabase;
 import 'package:sqflite/sqlite_api.dart';
 import 'package:sqflite__departement/core/database/sqflite/crud.dart';
-import 'package:path/path.dart';
 class MySqfliteDatabase extends CRUD {
   static const String _userTable = "users";
   static const String _userColumnId = "user_id";
