@@ -51,14 +51,16 @@ class MySqfliteDatabase extends CRUD {
     await _db!.close();
     return deleted > 0 ? true : false;
   }
+  Future<bool> InsertToUserTable({required String username}){
+    return insert( values: {
+      _userColumnUsername : username
+    }, tablename: _userTable);
+  }
 
   @override
-  Future<bool> insert() async {
+  Future<bool> insert({required String tablename , required Map<String,dynamic> values}) async {
     await _initDatabase();
-     int inserted = await _db!.insert( _userTable, {
-      _userColumnUsername: "ahmed",
-      _userColumnPassword: "123456"
-    });
+     int inserted = await _db!.insert( tablename, values);
     await _db!.close();
     return inserted > 0 ? true : false;
   }

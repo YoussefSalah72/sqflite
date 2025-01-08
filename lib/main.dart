@@ -4,8 +4,5 @@ import 'package:sqflite__departement/core/database/sqflite/my_sqflite_database.d
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-  MySqfliteDatabase db = MySqfliteDatabase();
-  bool deleted = await db.delete();
-  print(deleted);
   runApp(const SqfliteApp());
 }
