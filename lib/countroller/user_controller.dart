@@ -12,6 +12,6 @@ class UserController {
   }
   void select() async {
     MySqfliteDatabase db = MySqfliteDatabase();
-    dataUser= await db.select();
+    dataUser= await db.selectusertabledata();
   }
 }
