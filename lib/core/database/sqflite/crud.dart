@@ -2,5 +2,5 @@ abstract class CRUD {
   Future<bool> insert({required String tablename , required Map<String,dynamic> values});
   Future<bool> update();
   Future<bool> delete();
-  Future<bool> select();
+  Future<List<Map<String, Object?>>> select();
 }

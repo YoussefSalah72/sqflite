@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/database/sqflite/my_sqflite_database.dart';
+import '../countroller/user_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _usernameController = TextEditingController();
+  late UserController _userController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userController=UserController();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 50,),
             TextField(
               decoration: InputDecoration(
                 label: Text("Username"),
@@ -27,10 +36,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ElevatedButton(onPressed: () async {
-              MySqfliteDatabase db = MySqfliteDatabase();
-              bool inserted = await db.InsertToUserTable(username: _usernameController.text);
-              print(inserted);
+                _userController.insertUser(usernamecountroller: _usernameController.text,);
+                setState(() {
+
+                });
+
             }, child: Text("inserted")),
+              Expanded(
+                  child: ListView.separated(
+                      itemBuilder:( context, index)=>
+                          Row(children: [Text("id:"+_userController.dataUser[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
+                            Text("   name:"+_userController.dataUser[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],) ,
+                      separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _userController.dataUser.length))
           ],),
         ),
       )
