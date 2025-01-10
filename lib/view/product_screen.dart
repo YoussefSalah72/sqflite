@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite__departement/countroller/Product_controller.dart';
 
 import '../core/database/sqflite/my_sqflite_database.dart';
 import '../countroller/user_controller.dart';
@@ -11,15 +12,17 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _usernameEditController = TextEditingController();
+  TextEditingController _ProductNameController = TextEditingController();
+  TextEditingController _ProductnameEditController = TextEditingController();
+  TextEditingController _ProductPriceController = TextEditingController();
+  TextEditingController _ProductCountController = TextEditingController();
 
-  late UserController _userController;
+  late ProductController _productController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _userController=UserController();
+    _productController=ProductController();
   }
   @override
   Widget build(BuildContext context) {
@@ -32,14 +35,32 @@ class _ProductScreenState extends State<ProductScreen> {
               children: [
                 SizedBox(height: 50,),
                 TextField(
-                  controller: _usernameController,
+                  controller: _ProductNameController,
                   decoration: InputDecoration(
-                    label: Text("Username"),
+                    label: Text("Product Name"),
                     border: OutlineInputBorder(),
                   ),
                 ),
+                const SizedBox(height: 20,),
+                TextField(
+                  controller: _ProductnameEditController,
+                  decoration: InputDecoration(
+                    label: Text("Price"),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                TextField(
+                  controller: _ProductnameEditController,
+                  decoration: InputDecoration(
+                    label: Text("Count"),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+
                 ElevatedButton(onPressed: () async {
-                  _userController.insertUser(usernamecountroller: _usernameController.text,);
+                  _productController.insertProduct( Productname: _ProductNameController.text, price: _ProductPriceController.hashCode, count: _ProductCountController.hashCode,);
                   setState(() {
 
                   });
@@ -52,11 +73,11 @@ class _ProductScreenState extends State<ProductScreen> {
                     child: ListView.separated(
                         itemBuilder:( context, index)=>
                             InkWell(
-                              child: Row(children: [Text("id:"+_userController.dataUser[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
-                                Text("   name:"+_userController.dataUser[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],),
+                              child: Row(children: [Text("id:"+_productController.productdata[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
+                                Text("   name:"+_productController.productdata[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],),
                               onTap: (){
-                                int id=_userController.dataUser[index]["user_id"];
-                                _usernameEditController.text=_userController.dataUser[index]["username"].toString();
+                                int id=_productController.productdata[index]["user_id"];
+                                _ProductnameEditController.text=_productController.productdata[index]["username"].toString();
                                 showModalBottomSheet(context: context,
                                     builder: (cotext)=> Container(
                                       child: Padding(
@@ -64,23 +85,23 @@ class _ProductScreenState extends State<ProductScreen> {
                                         child: Column(
                                             children: [
                                               TextField(
-                                                controller: _usernameEditController,
+                                                controller: _ProductnameEditController,
                                                 decoration: InputDecoration(
-                                                  label: Text("Username"),
+                                                  label: Text("Product Name"),
                                                   border: OutlineInputBorder(),
                                                 ),
                                               ),
                                               Row(
                                                   children: [
                                                     ElevatedButton(onPressed: () async {
-                                                      _userController.updateUser(username: _usernameEditController.text, id: id);
+                                                      _productController.updateUser(username: _ProductnameEditController.text, id: id);
                                                       Navigator.of(context).pop();
                                                       setState(() {
 
                                                       });
                                                     }, child: Text("Update")),
                                                     ElevatedButton(onPressed: () async {
-                                                      _userController.deleteUsertable(id: id);
+                                                      _productController.deleteUsertable(id: id);
                                                       Navigator.of(context).pop();
                                                       setState(() {});
                                                     }, child: Text("Delete")),
@@ -90,7 +111,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                     ) );
                               },
                             ),
-                        separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _userController.dataUser.length))
+                        separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _productController.productdata.length))
               ],),
           ),
         )
