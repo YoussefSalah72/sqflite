@@ -84,8 +84,16 @@ class MySqfliteDatabase extends CRUD {
   }
 
   @override
-  Future<bool> update() {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<bool> update({required String username,required int id}) async {
+    await _initDatabase();
+    int inserted = await _db!.update(
+        _userTable,
+        {
+          _userColumnUsername : username
+        },
+      where: "$_userColumnId == $id"
+    );
+    await _db!.close();
+    return inserted > 0 ? true : false;
   }
 }

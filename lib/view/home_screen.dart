@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _usernameController = TextEditingController();
+  TextEditingController _usernameEditController = TextEditingController();
+
   late UserController _userController;
   @override
   void initState() {
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               SizedBox(height: 50,),
             TextField(
+              controller: _usernameController,
               decoration: InputDecoration(
                 label: Text("Username"),
                 border: OutlineInputBorder(),
@@ -45,8 +48,47 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                   child: ListView.separated(
                       itemBuilder:( context, index)=>
-                          Row(children: [Text("id:"+_userController.dataUser[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
-                            Text("   name:"+_userController.dataUser[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],) ,
+                          InkWell(
+                            child: Row(children: [Text("id:"+_userController.dataUser[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
+                              Text("   name:"+_userController.dataUser[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],),
+                              onTap: (){
+                                  int id=_userController.dataUser[index]["user_id"];
+                                  _usernameEditController.text=_userController.dataUser[index]["username"].toString();
+                                      showModalBottomSheet(context: context,
+                                          builder: (cotext)=> Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(20.0),
+                                              child: Column(
+                                                children: [
+                                                  TextField(
+                                                    controller: _usernameEditController,
+                                                    decoration: InputDecoration(
+                                                      label: Text("Username"),
+                                                      border: OutlineInputBorder(),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      ElevatedButton(onPressed: () async {
+                                                        _userController.updateUser(username: _usernameEditController.text, id: id);
+                                                        Navigator.of(context).pop();
+                                                        setState(() {
+
+                                                        });
+                                                      }, child: Text("Update")),
+                                                      ElevatedButton(onPressed: () async {
+                                                        _userController.insertUser(usernamecountroller: _usernameController.text,);
+                                                        setState(() {
+
+                                                        });
+
+                                                      }, child: Text("Delete")),
+                                                  ])
+                                              ]),
+                                            ) ,
+                                          ) );
+                              },
+                          ),
                       separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _userController.dataUser.length))
           ],),
         ),
