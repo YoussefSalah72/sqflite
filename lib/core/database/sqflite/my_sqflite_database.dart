@@ -84,14 +84,17 @@ class MySqfliteDatabase extends CRUD {
   }
 
   @override
-  Future<bool> update({required String username,required int id}) async {
+  Future<bool> updateusertable({required String username,required int id}) async {
+    return update(tablename: _userTable, values: {_userColumnUsername : username}, where: "$_userColumnId = $id");
+  }
+
+  @override
+  Future<bool> update({required String tablename ,required Map<String,Object?> values,required String where}) async {
     await _initDatabase();
     int inserted = await _db!.update(
-        _userTable,
-        {
-          _userColumnUsername : username
-        },
-      where: "$_userColumnId == $id"
+        tablename,
+        values,
+      where: where
     );
     await _db!.close();
     return inserted > 0 ? true : false;

@@ -16,7 +16,7 @@ class UserController {
   }
   void updateUser({required String username,required int id}) async {
     MySqfliteDatabase db = MySqfliteDatabase();
-     await db.update(username: username, id: id);
+     await db.updateusertable(username: username, id: id);
      select();
   }
 }
