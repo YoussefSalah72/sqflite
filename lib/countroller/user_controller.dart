@@ -19,4 +19,9 @@ class UserController {
      await db.updateusertable(username: username, id: id);
      select();
   }
+  void deleteUsertable({required int id}) async {
+    MySqfliteDatabase db = MySqfliteDatabase();
+    await db.deleteUsertable(id: id);
+    select();
+  }
 }

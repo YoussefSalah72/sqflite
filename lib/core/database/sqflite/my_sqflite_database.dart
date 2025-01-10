@@ -44,13 +44,17 @@ class MySqfliteDatabase extends CRUD {
         " $_salesColumnUsername TEXT)");
   }
 
-  @override
-  Future<bool> delete() async {
+  Future<bool> deleteUsertable({required int id}) async {
+   return delete(tablename: _userTable, where: "$_userColumnId == $id");
+  }
+
+  Future<bool> delete({required String tablename,required String where}) async {
     await _initDatabase();
-    int deleted = await _db!.delete(_userTable, where: "$_userColumnId ==1");
+    int deleted = await _db!.delete(tablename, where: where);
     await _db!.close();
     return deleted > 0 ? true : false;
   }
+
   Future<bool> InsertToUserTable({required String username}){
     return insert( values: {
       _userColumnUsername : username
