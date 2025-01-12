@@ -7,13 +7,12 @@ class ProductController {
   }
   void insertProduct({required String Productname , required double price , required int count}) async {
     MySqfliteDatabase db = MySqfliteDatabase();
-     bool a =  await db.InsertToProductTable( Productname:Productname , price: price, count: count);
-     print(a);
+    await db.InsertToProductTable( Productname:Productname , price: price, count: count);
     select();
   }
   void select() async {
     MySqfliteDatabase db = MySqfliteDatabase();
-    productdata= await db.selectusertabledata();
+    productdata= await db.selectProducttabledata();
   }
   void updateUser({required String username,required int id}) async {
     MySqfliteDatabase db = MySqfliteDatabase();
