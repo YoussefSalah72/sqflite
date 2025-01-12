@@ -61,7 +61,7 @@ class MySqfliteDatabase extends CRUD {
     }, tablename: _userTable);
   }
 
-  Future<bool> InsertToProductTable({required String Productname , required int
+  Future<bool> InsertToProductTable({required String Productname , required double
   price , required int count}){
     return insert( values: {
       _productColumnUsername : Productname,

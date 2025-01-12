@@ -35,6 +35,7 @@ class _ProductScreenState extends State<ProductScreen> {
               children: [
                 SizedBox(height: 50,),
                 TextField(
+                  keyboardType: TextInputType.text,
                   controller: _ProductNameController,
                   decoration: InputDecoration(
                     label: Text("Product Name"),
@@ -43,7 +44,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  controller: _ProductnameEditController,
+                  keyboardType: TextInputType.number,
+                  controller: _ProductPriceController,
                   decoration: InputDecoration(
                     label: Text("Price"),
                     border: OutlineInputBorder(),
@@ -51,7 +53,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  controller: _ProductnameEditController,
+                  keyboardType: TextInputType.number,
+                  controller: _ProductCountController,
                   decoration: InputDecoration(
                     label: Text("Count"),
                     border: OutlineInputBorder(),
@@ -60,7 +63,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 const SizedBox(height: 20,),
 
                 ElevatedButton(onPressed: () async {
-                  _productController.insertProduct( Productname: _ProductNameController.text, price: _ProductPriceController.hashCode, count: _ProductCountController.hashCode,);
+                  _productController.insertProduct( Productname: _ProductNameController.text, price: double.parse(_ProductPriceController.text) , count: int.parse(_ProductCountController.text) ,);
                   setState(() {
 
                   });
@@ -69,49 +72,49 @@ class _ProductScreenState extends State<ProductScreen> {
                 ElevatedButton(onPressed: () async {
                   setState(() {});
                 }, child: Text("Refresh")),
-                Expanded(
-                    child: ListView.separated(
-                        itemBuilder:( context, index)=>
-                            InkWell(
-                              child: Row(children: [Text("id:"+_productController.productdata[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
-                                Text("   name:"+_productController.productdata[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],),
-                              onTap: (){
-                                int id=_productController.productdata[index]["user_id"];
-                                _ProductnameEditController.text=_productController.productdata[index]["username"].toString();
-                                showModalBottomSheet(context: context,
-                                    builder: (cotext)=> Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                            children: [
-                                              TextField(
-                                                controller: _ProductnameEditController,
-                                                decoration: InputDecoration(
-                                                  label: Text("Product Name"),
-                                                  border: OutlineInputBorder(),
-                                                ),
-                                              ),
-                                              Row(
-                                                  children: [
-                                                    ElevatedButton(onPressed: () async {
-                                                      _productController.updateUser(username: _ProductnameEditController.text, id: id);
-                                                      Navigator.of(context).pop();
-                                                      setState(() {
-
-                                                      });
-                                                    }, child: Text("Update")),
-                                                    ElevatedButton(onPressed: () async {
-                                                      _productController.deleteUsertable(id: id);
-                                                      Navigator.of(context).pop();
-                                                      setState(() {});
-                                                    }, child: Text("Delete")),
-                                                  ])
-                                            ]),
-                                      ) ,
-                                    ) );
-                              },
-                            ),
-                        separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _productController.productdata.length))
+                // Expanded(
+                //     child: ListView.separated(
+                //         itemBuilder:( context, index)=>
+                //             InkWell(
+                //               child: Row(children: [Text("id:"+_productController.productdata[index]["user_id"].toString(),style: (TextStyle(fontSize: 10)),),
+                //                 Text("   name:"+_productController.productdata[index]["username"].toString(),style: (TextStyle(fontSize: 10)),)],),
+                //               onTap: (){
+                //                 int id=_productController.productdata[index]["user_id"];
+                //                 _ProductnameEditController.text=_productController.productdata[index]["username"].toString();
+                //                 showModalBottomSheet(context: context,
+                //                     builder: (cotext)=> Container(
+                //                       child: Padding(
+                //                         padding: const EdgeInsets.all(20.0),
+                //                         child: Column(
+                //                             children: [
+                //                               TextField(
+                //                                 controller: _ProductnameEditController,
+                //                                 decoration: InputDecoration(
+                //                                   label: Text("Product Name"),
+                //                                   border: OutlineInputBorder(),
+                //                                 ),
+                //                               ),
+                //                               Row(
+                //                                   children: [
+                //                                     ElevatedButton(onPressed: () async {
+                //                                       _productController.updateUser(username: _ProductnameEditController.text, id: id);
+                //                                       Navigator.of(context).pop();
+                //                                       setState(() {
+                //
+                //                                       });
+                //                                     }, child: Text("Update")),
+                //                                     ElevatedButton(onPressed: () async {
+                //                                       _productController.deleteUsertable(id: id);
+                //                                       Navigator.of(context).pop();
+                //                                       setState(() {});
+                //                                     }, child: Text("Delete")),
+                //                                   ])
+                //                             ]),
+                //                       ) ,
+                //                     ) );
+                //               },
+                //             ),
+                //         separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _productController.productdata.length))
               ],),
           ),
         )

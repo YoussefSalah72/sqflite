@@ -5,9 +5,10 @@ class ProductController {
   ProductController(){
     select();
   }
-  void insertProduct({required String Productname , required int price , required int count}) async {
+  void insertProduct({required String Productname , required double price , required int count}) async {
     MySqfliteDatabase db = MySqfliteDatabase();
-      await db.InsertToProductTable( Productname:Productname , price: price, count: count);
+     bool a =  await db.InsertToProductTable( Productname:Productname , price: price, count: count);
+     print(a);
     select();
   }
   void select() async {
