@@ -16,6 +16,9 @@ class _ProductScreenState extends State<ProductScreen> {
   TextEditingController _ProductnameEditController = TextEditingController();
   TextEditingController _ProductPriceController = TextEditingController();
   TextEditingController _ProductCountController = TextEditingController();
+  TextEditingController _ProductPriceEditController = TextEditingController();
+  TextEditingController _ProductCountEditController = TextEditingController();
+
 
   late ProductController _productController;
   @override
@@ -74,48 +77,70 @@ class _ProductScreenState extends State<ProductScreen> {
                 }, child: Text("Refresh")),
                 Expanded(
                     child: ListView.separated(
-                        itemBuilder:( context, index)=> Row(children: [Text("id:"+_productController.productdata[index]["product_id"].toString(),style: (TextStyle(fontSize: 10)),),
-                          Text("   name:"+_productController.productdata[index]["username"].toString(),style: (TextStyle(fontSize: 10)),),
-                          Text("   price:"+_productController.productdata[index]["price"].toString(),style: (TextStyle(fontSize: 10)),),
-                          Text("   count:"+_productController.productdata[index]["product_count"].toString(),style: (TextStyle(fontSize: 10)),)],),
-                            // InkWell(
-                            //   child:
-                            //   onTap: (){
-                            //     int id=_productController.productdata[index]["user_id"];
-                            //     _ProductnameEditController.text=_productController.productdata[index]["username"].toString();
-                            //     showModalBottomSheet(context: context,
-                            //         builder: (cotext)=> Container(
-                            //           child: Padding(
-                            //             padding: const EdgeInsets.all(20.0),
-                            //             child: Column(
-                            //                 children: [
-                            //                   TextField(
-                            //                     controller: _ProductnameEditController,
-                            //                     decoration: InputDecoration(
-                            //                       label: Text("Product Name"),
-                            //                       border: OutlineInputBorder(),
-                            //                     ),
-                            //                   ),
-                            //                   Row(
-                            //                       children: [
-                            //                         ElevatedButton(onPressed: () async {
-                            //                           _productController.updateUser(username: _ProductnameEditController.text, id: id);
-                            //                           Navigator.of(context).pop();
-                            //                           setState(() {
-                            //
-                            //                           });
-                            //                         }, child: Text("Update")),
-                            //                         ElevatedButton(onPressed: () async {
-                            //                           _productController.deleteUsertable(id: id);
-                            //                           Navigator.of(context).pop();
-                            //                           setState(() {});
-                            //                         }, child: Text("Delete")),
-                            //                       ])
-                            //                 ]),
-                            //           ) ,
-                            //         ) );
-                            //   },
-                            // ),
+                        itemBuilder:( context, index)=>
+                            InkWell(
+                              child:Row(children: [Text("id:"+_productController.productdata[index]["product_id"].toString(),style: (TextStyle(fontSize: 10)),),
+                                Text("   name:"+_productController.productdata[index]["username"].toString(),style: (TextStyle(fontSize: 10)),),
+                                Text("   price:"+_productController.productdata[index]["price"].toString(),style: (TextStyle(fontSize: 10)),),
+                                Text("   count:"+_productController.productdata[index]["product_count"].toString(),style: (TextStyle(fontSize: 10)),)],),
+                              onTap: (){
+                                int id=_productController.productdata[index]["product_id"];
+                                _ProductnameEditController.text=_productController.productdata[index]["username"].toString();
+                                _ProductPriceEditController.text=_productController.productdata[index]["price"].toString();
+                                _ProductCountEditController.text=_productController.productdata[index]["product_count"].toString();
+                                showModalBottomSheet(context: context,
+                                    builder: (cotext)=> Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                            children: [
+                                              TextField(
+                                                keyboardType: TextInputType.text,
+                                                controller: _ProductnameEditController,
+                                                decoration: InputDecoration(
+                                                  label: Text("Product Name"),
+                                                  border: OutlineInputBorder(),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20,),
+                                              TextField(
+                                                keyboardType: TextInputType.number,
+                                                controller:  _ProductPriceEditController,
+                                                decoration: InputDecoration(
+                                                  label: Text("Price"),
+                                                  border: OutlineInputBorder(),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20,),
+                                              TextField(
+                                                keyboardType: TextInputType.number,
+                                                controller: _ProductCountEditController,
+                                                decoration: InputDecoration(
+                                                  label: Text("Count"),
+                                                  border: OutlineInputBorder(),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20,),
+                                              Row(
+                                                  children: [
+                                                    ElevatedButton(onPressed: () async {
+                                                      _productController.updateUser(username: _ProductnameEditController.text, id: id);
+                                                      Navigator.of(context).pop();
+                                                      setState(() {
+
+                                                      });
+                                                    }, child: Text("Update")),
+                                                    ElevatedButton(onPressed: () async {
+                                                      _productController.deleteUsertable(id: id);
+                                                      Navigator.of(context).pop();
+                                                      setState(() {});
+                                                    }, child: Text("Delete")),
+                                                  ])
+                                            ]),
+                                      ) ,
+                                    ) );
+                              },
+                            ),
                         separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _productController.productdata.length))
               ],),
           ),
