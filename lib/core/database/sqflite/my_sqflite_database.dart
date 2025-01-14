@@ -47,6 +47,9 @@ class MySqfliteDatabase extends CRUD {
   Future<bool> deleteUsertable({required int id}) async {
    return delete(tablename: _userTable, where: "$_userColumnId == $id");
   }
+  Future<bool> deleteProductTable({required int id}) async {
+    return delete(tablename: _productTable, where: "$_productColumnId == $id");
+  }
 
   Future<bool> delete({required String tablename,required String where}) async {
     await _initDatabase();

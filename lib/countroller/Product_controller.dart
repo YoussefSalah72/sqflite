@@ -25,9 +25,9 @@ class ProductController {
     );
     select();
   }
-  void deleteUsertable({required int id}) async {
+  void deleteProductTable({required int id}) async {
     MySqfliteDatabase db = MySqfliteDatabase();
-    await db.deleteUsertable(id: id);
+    await db.deleteProductTable(id: id);
     select();
   }
 }

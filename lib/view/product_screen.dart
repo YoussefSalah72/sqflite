@@ -135,7 +135,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                       });
                                                     }, child: Text("Update")),
                                                     ElevatedButton(onPressed: () async {
-                                                      _productController.deleteUsertable(id: id);
+                                                      _productController.deleteProductTable(id: id);
                                                       Navigator.of(context).pop();
                                                       setState(() {});
                                                     }, child: Text("Delete")),
