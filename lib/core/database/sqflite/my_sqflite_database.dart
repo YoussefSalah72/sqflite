@@ -96,9 +96,17 @@ class MySqfliteDatabase extends CRUD {
     return data;
   }
 
-  @override
+
   Future<bool> updateusertable({required String username,required int id}) async {
     return update(tablename: _userTable, values: {_userColumnUsername : username}, where: "$_userColumnId = $id");
+  }
+
+  Future<bool> updateProductTable({required String Productname, required double price , required int count , required int id}) async {
+    return update(tablename: _productTable, values:
+    {_productColumnUsername : Productname,
+     _productColumnPrice : price,
+     _productColumnProductCount : count
+    }, where: "$_productColumnId = $id");
   }
 
   @override

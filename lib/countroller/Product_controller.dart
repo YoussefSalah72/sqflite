@@ -19,6 +19,12 @@ class ProductController {
     await db.updateusertable(username: username, id: id);
     select();
   }
+  void updateProduct({required String Productname , required double price , required int count,required int id}) async {
+    MySqfliteDatabase db = MySqfliteDatabase();
+    await db.updateProductTable(Productname:Productname , price: price, count: count, id: id,
+    );
+    select();
+  }
   void deleteUsertable({required int id}) async {
     MySqfliteDatabase db = MySqfliteDatabase();
     await db.deleteUsertable(id: id);
