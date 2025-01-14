@@ -23,22 +23,51 @@ class _SalesScreenState extends State<SalesScreen> {
     return  Scaffold(
       appBar: AppBar(title: Text("Sales Screen"),),
       body: FutureBuilder(future: _salesController.selectUsers(), builder:(context, snapshot)=> Center(child:
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      Column(
         children: [
-          Text("Users"),
-          SizedBox(width: 50,),
-          DropdownButton(
-              value: _salesController.valueBottons,
-              items:[
-                for(int i=0; i<_salesController.dataUser.length; i++)
-                  DropdownMenuItem(
-                    value: _salesController.dataUser[i]['user_id'],
-                    child:Text(_salesController.dataUser[i]['username']),),
-              ] , onChanged: (value){}),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Users"),
+              SizedBox(width: 50,),
+              DropdownButton(
+                  value: _salesController.valueBottonsUsers,
+                  items:[
+                    for(int i=0; i<_salesController.dataUser.length; i++)
+                      DropdownMenuItem(
+                        value: _salesController.dataUser[i]['user_id'],
+                        child:Text(_salesController.dataUser[i]['username']),),
+                  ] , onChanged: (value){
+                _salesController.valueBottonsUsers = int.parse(value.toString());
+                setState(() {
+
+                });
+              }),
+            ],
+          ),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Products"),
+              SizedBox(width: 50,),
+              DropdownButton(
+                  value: _salesController.valueBottonsProducts,
+                  items:[
+                    for(int i=0; i<_salesController.dataProduct.length; i++)
+                      DropdownMenuItem(
+                        value: _salesController.dataProduct[i]['product_id'],
+                        child:Text("${_salesController.dataProduct[i]['username']} / ${_salesController.dataProduct[i]['price']}"),),
+                  ] , onChanged: (value){
+                _salesController.valueBottonsProducts = int.parse(value.toString());
+                setState(() {
+
+                });
+              }),
+            ],
+          )
         ],
-      )
-        ,), )
+      ), ), )
     );
   }
 }
