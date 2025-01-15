@@ -65,6 +65,12 @@ class _SalesScreenState extends State<SalesScreen> {
                 });
               }),
             ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: () async {setState(() {});;}, child: Text("refresh")),
+              ElevatedButton(onPressed: () async {_salesController.InsertToSales();}, child: Text("add")),],
           )
         ],
       ), ), )

@@ -73,6 +73,13 @@ class MySqfliteDatabase extends CRUD {
     }, tablename: _productTable);
   }
 
+  Future<bool> InsertToSalesTable({required String username, required String Productname}){
+    return insert( values: {
+      _salesColumnUsername : username,
+      _salesColumnProductName : Productname
+    }, tablename: _salesTable);
+  }
+
   @override
   Future<bool> insert({required String tablename , required Map<String,dynamic> values}) async {
     await _initDatabase();
