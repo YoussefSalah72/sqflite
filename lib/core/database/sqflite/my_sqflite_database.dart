@@ -9,22 +9,23 @@ class MySqfliteDatabase extends CRUD {
   static const String _userColumnPassword = "password";
   static const String _productTable = "product";
   static const String _productColumnId = "product_id";
-  static const String _productColumnUsername = "username";
+  static const String _productColumnUsername = "product_name";
   static const String _productColumnPrice = "price";
   static const String _productColumnProductCount = "product_count";
   static const String _salesTable = "sales";
   static const String _salesColumnId = "sales_id";
-  static const String _salesColumnProductName = "product_name";
-  static const String _salesColumnUsername = "sales_username";
+  static const String _salesColumnProductID = "sales_name_Id";
+  static const String _salesColumnUsernameID = "sales_username_Id";
 
   Database? _db ;
   Future<Database> _initDatabase() async {
     String databasesPath = await sqfliteDatabase.getDatabasesPath();
     String managementDatabaseName = "management.db";
     String realDatabasePath = join(databasesPath, managementDatabaseName);
-    int versionDatabase = 1;
+    int versionDatabase = 4;
     _db ??= await sqfliteDatabase.openDatabase(realDatabasePath,
     onCreate: _oncreate,
+      onUpgrade: (db, oldVersion, newVersion) {},
       version: versionDatabase
     );
     return _db!;
@@ -40,8 +41,8 @@ class MySqfliteDatabase extends CRUD {
         " $_productColumnProductCount INTEGER)");
     ///////////////////////
     await db.execute("CREATE TABLE $_salesTable ($_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT ,"
-        " $_salesColumnProductName TEXT ,"
-        " $_salesColumnUsername TEXT)");
+        " $_salesColumnProductID INTEGER ,"
+        " $_salesColumnUsernameID INTEGER)");
   }
 
   Future<bool> deleteUsertable({required int id}) async {
@@ -73,10 +74,10 @@ class MySqfliteDatabase extends CRUD {
     }, tablename: _productTable);
   }
 
-  Future<bool> InsertToSalesTable({required String username, required String Productname}){
+  Future<bool> InsertToSalesTable({required int usernameId, required int ProductnameId}){
     return insert( values: {
-      _salesColumnUsername : username,
-      _salesColumnProductName : Productname
+      _salesColumnUsernameID : usernameId,
+      _salesColumnProductID : ProductnameId
     }, tablename: _salesTable);
   }
 
@@ -93,12 +94,22 @@ class MySqfliteDatabase extends CRUD {
     return select(tablename: _userTable);
   }
 
-  Future<List<Map<String, Object?>>> selectSalesTableData() async {
-    return select(tablename: _salesTable);
-  }
   @override
   Future<List<Map<String, Object?>>> selectProducttabledata() async {
     return select(tablename: _productTable);
+  }
+
+  Future<List<Map<String, Object?>>> selectSalesTableData() async {
+    await _initDatabase();
+    List<Map<String, Object?>> data = await _db!.rawQuery('SELECT $_salesTable.$_salesColumnId,'
+        '$_productTable.$_productColumnUsername,'
+        '$_userTable.$_userColumnUsername'
+        ' FROM $_salesTable,$_productTable,$_userTable WHERE '
+        '$_salesTable.$_salesColumnUsernameID = $_userTable.$_userColumnId AND '
+        '$_salesTable.$_salesColumnProductID = $_productTable.$_productColumnId'
+    );
+    await _db!.close();
+    return data;
   }
 
   @override

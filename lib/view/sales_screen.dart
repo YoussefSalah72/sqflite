@@ -57,7 +57,7 @@ class _SalesScreenState extends State<SalesScreen> {
                     for(int i=0; i<_salesController.dataProduct.length; i++)
                       DropdownMenuItem(
                         value: _salesController.dataProduct[i]['product_id'],
-                        child:Text("${_salesController.dataProduct[i]['username']} / ${_salesController.dataProduct[i]['price']}"),),
+                        child:Text("${_salesController.dataProduct[i]['product_name']} / ${_salesController.dataProduct[i]['price']}"),),
                   ] , onChanged: (value){
                 _salesController.valueBottonsProducts = int.parse(value.toString());
                 setState(() {
@@ -80,8 +80,8 @@ class _SalesScreenState extends State<SalesScreen> {
                   itemBuilder:( context, index)=>
                       InkWell(
                         child: Row(children: [Text("id:"+_salesController.dataSales[index]["sales_id"].toString(),style: (TextStyle(fontSize: 10)),),
-                          Text("   name:"+_salesController.dataSales[index]["product_name"].toString(),style: (TextStyle(fontSize: 10)),),
-                          Text("   Product name:"+_salesController.dataSales[index]["sales_username"].toString(),style: (TextStyle(fontSize: 10)),)
+                          Text("   user:"+_salesController.dataSales[index]['username'].toString(),style: (TextStyle(fontSize: 10)),),
+                          Text("   Product name:"+_salesController.dataSales[index]['product_name'].toString(),style: (TextStyle(fontSize: 10)),)
                         ],),
                         // onTap: (){
                         //   int id=_userController.dataUser[index]["user_id"];
