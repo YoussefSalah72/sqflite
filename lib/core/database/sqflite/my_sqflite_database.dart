@@ -93,6 +93,9 @@ class MySqfliteDatabase extends CRUD {
     return select(tablename: _userTable);
   }
 
+  Future<List<Map<String, Object?>>> selectSalesTableData() async {
+    return select(tablename: _salesTable);
+  }
   @override
   Future<List<Map<String, Object?>>> selectProducttabledata() async {
     return select(tablename: _productTable);

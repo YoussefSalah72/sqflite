@@ -3,6 +3,7 @@ import '../core/database/sqflite/my_sqflite_database.dart';
 class SalesController {
   List dataUser = [];
   List dataProduct = [];
+  List dataSales = [];
   int valueBottonsUsers = 0;
   int valueBottonsProducts = 0;
 
@@ -19,6 +20,12 @@ class SalesController {
     MySqfliteDatabase db = MySqfliteDatabase();
     dataUser= await db.selectusertabledata();
   }
+
+  Future<void> selectSales() async {
+    MySqfliteDatabase db = MySqfliteDatabase();
+    dataSales= await db.selectSalesTableData();
+  }
+
   Future<void> selectProducts() async {
     MySqfliteDatabase db = MySqfliteDatabase();
     dataProduct= await db.selectProducttabledata();

@@ -70,8 +70,56 @@ class _SalesScreenState extends State<SalesScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(onPressed: () async {setState(() {});;}, child: Text("refresh")),
-              ElevatedButton(onPressed: () async {_salesController.InsertToSales();}, child: Text("add")),],
-          )
+              SizedBox(width: 20,),
+              ElevatedButton(onPressed: () async {_salesController.InsertToSales();_salesController.selectSales();setState(() {});}, child: Text("add")),
+              SizedBox(width: 20,),
+              ElevatedButton(onPressed: () async {_salesController.selectSales();}, child: Text("get Data ")),],
+          ),
+          Expanded(
+              child: ListView.separated(
+                  itemBuilder:( context, index)=>
+                      InkWell(
+                        child: Row(children: [Text("id:"+_salesController.dataSales[index]["sales_id"].toString(),style: (TextStyle(fontSize: 10)),),
+                          Text("   name:"+_salesController.dataSales[index]["product_name"].toString(),style: (TextStyle(fontSize: 10)),),
+                          Text("   Product name:"+_salesController.dataSales[index]["sales_username"].toString(),style: (TextStyle(fontSize: 10)),)
+                        ],),
+                        // onTap: (){
+                        //   int id=_userController.dataUser[index]["user_id"];
+                        //   _usernameEditController.text=_userController.dataUser[index]["username"].toString();
+                        //   showModalBottomSheet(context: context,
+                        //       builder: (cotext)=> Container(
+                        //         child: Padding(
+                        //           padding: const EdgeInsets.all(20.0),
+                        //           child: Column(
+                        //               children: [
+                        //                 TextField(
+                        //                   controller: _usernameEditController,
+                        //                   decoration: InputDecoration(
+                        //                     label: Text("Username"),
+                        //                     border: OutlineInputBorder(),
+                        //                   ),
+                        //                 ),
+                        //                 Row(
+                        //                     children: [
+                        //                       ElevatedButton(onPressed: () async {
+                        //                         _userController.updateUser(username: _usernameEditController.text, id: id);
+                        //                         Navigator.of(context).pop();
+                        //                         setState(() {
+                        //
+                        //                         });
+                        //                       }, child: Text("Update")),
+                        //                       ElevatedButton(onPressed: () async {
+                        //                         _userController.deleteUsertable(id: id);
+                        //                         Navigator.of(context).pop();
+                        //                         setState(() {});
+                        //                       }, child: Text("Delete")),
+                        //                     ])
+                        //               ]),
+                        //         ) ,
+                        //       ) );
+                        // },
+                      ),
+                  separatorBuilder: (cotext,index)=>SizedBox(height: 10) , itemCount: _salesController.dataSales.length))
         ],
       ), ), )
     );
