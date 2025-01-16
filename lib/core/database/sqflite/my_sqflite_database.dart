@@ -25,6 +25,9 @@ class MySqfliteDatabase extends CRUD {
     int versionDatabase = 4;
     _db ??= await sqfliteDatabase.openDatabase(realDatabasePath,
     onCreate: _oncreate,
+      onOpen: (db)async{
+      await db.execute("PRAGMA foreign_keys = ON");
+      },
       onUpgrade: (db, oldVersion, newVersion) {},
       version: versionDatabase
     );
@@ -40,9 +43,16 @@ class MySqfliteDatabase extends CRUD {
         " $_productColumnPrice REAL ,"
         " $_productColumnProductCount INTEGER)");
     ///////////////////////
-    await db.execute("CREATE TABLE $_salesTable ($_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT ,"
-        " $_salesColumnProductID INTEGER ,"
-        " $_salesColumnUsernameID INTEGER)");
+    await db.execute(
+        "CREATE TABLE IF NOT EXISTS $_salesTable ("
+            " $_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
+            " $_salesColumnProductID INTEGER,"
+            " $_salesColumnUsernameID INTEGER,"
+            " CONSTRAINT user_sales_relation FOREIGN KEY ($_salesColumnProductID) REFERENCES $_productTable($_productColumnId) ON DELETE CASCADE ON UPDATE CASCADE,"
+            " CONSTRAINT product_sales_relation FOREIGN KEY ($_salesColumnUsernameID) REFERENCES $_userTable($_userColumnId) ON DELETE CASCADE ON UPDATE CASCADE"
+            ");"
+    );
+
   }
 
   Future<bool> deleteUsertable({required int id}) async {
@@ -89,14 +99,16 @@ class MySqfliteDatabase extends CRUD {
     return inserted > 0 ? true : false;
   }
 
-  @override
   Future<List<Map<String, Object?>>> selectusertabledata() async {
     return select(tablename: _userTable);
   }
 
-  @override
   Future<List<Map<String, Object?>>> selectProducttabledata() async {
     return select(tablename: _productTable);
+  }
+
+  Future<List<Map<String, Object?>>> sales() async {
+    return select(tablename: _salesTable);
   }
 
   Future<List<Map<String, Object?>>> selectSalesTableData() async {

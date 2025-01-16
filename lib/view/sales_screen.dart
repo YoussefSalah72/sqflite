@@ -1,4 +1,5 @@
 import'package:flutter/material.dart';
+import 'package:sqflite__departement/core/database/sqflite/my_sqflite_database.dart';
 import 'package:sqflite__departement/countroller/sales_controller.dart';
 
 import '../countroller/sales_controller.dart';
@@ -73,7 +74,11 @@ class _SalesScreenState extends State<SalesScreen> {
               SizedBox(width: 20,),
               ElevatedButton(onPressed: () async {_salesController.InsertToSales();_salesController.selectSales();setState(() {});}, child: Text("add")),
               SizedBox(width: 20,),
-              ElevatedButton(onPressed: () async {_salesController.selectSales();}, child: Text("get Data ")),],
+              ElevatedButton(onPressed: () async {_salesController.selectSales();}, child: Text("get Data ")),
+              SizedBox(width: 20,),
+              ElevatedButton(onPressed: () async  {MySqfliteDatabase db=MySqfliteDatabase(); var sales = await db.sales(); print(sales.length); setState(() {});}, child: Text("sales")),
+            ],
+
           ),
           Expanded(
               child: ListView.separated(
